@@ -2,11 +2,19 @@
 #include "entity.h"
 #include "timer.h"
 #include "../platform/platform.h"
+#include "../renderer/renderer.h"
 #include <cstdlib>
 #include <functional>
 
+// Sound effects are defined in audio.cpp
+
+// Model definitions
+model_t* model_shotgun = nullptr;
+model_t* model_nailgun = nullptr;
+model_t* model_grenadelauncher = nullptr;
+
 weapon_t::weapon_t() : _needs_ammo(true), _projectile_offset(0, 0, 8) {
-    _init();
+    // _init() will be called by derived classes
 }
 
 void weapon_t::_shoot(const vec3& pos, float yaw, float pitch) {
@@ -26,6 +34,10 @@ void weapon_t::_spawn_projectile(const vec3& pos, float yaw, float pitch) {
     
     // Alternate left/right fire for next projectile (nailgun)
     _projectile_offset.x *= -1;
+}
+
+weapon_shotgun_t::weapon_shotgun_t() {
+    _init();
 }
 
 void weapon_shotgun_t::_init() {
@@ -49,6 +61,10 @@ void weapon_shotgun_t::_spawn_projectile(const vec3& pos, float yaw, float pitch
     }
 }
 
+weapon_nailgun_t::weapon_nailgun_t() {
+    _init();
+}
+
 void weapon_nailgun_t::_init() {
     _texture = 4;
     _model = model_nailgun;
@@ -57,6 +73,10 @@ void weapon_nailgun_t::_init() {
     _reload = 0.09f;
     _projectile_speed = 1300;
     _projectile_offset = vec3(6, 0, 8);
+}
+
+weapon_grenadelauncher_t::weapon_grenadelauncher_t() {
+    _init();
 }
 
 void weapon_grenadelauncher_t::_init() {

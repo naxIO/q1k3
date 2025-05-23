@@ -146,30 +146,49 @@ void map_init(int index) {
     
     // Entity spawn table - must match map_packer.c
     typedef EntityPtr (*spawn_func_t)(const vec3&, void*, void*);
+    
+    // Define spawn functions
+    static spawn_func_t spawn_player = [](const vec3& p, void* d1, void* d2) -> EntityPtr { return game_spawn<entity_player_t>(p, d1, d2); };
+    static spawn_func_t spawn_grunt = [](const vec3& p, void* d1, void* d2) -> EntityPtr { return game_spawn<entity_enemy_grunt_t>(p, d1, d2); };
+    static spawn_func_t spawn_enforcer = [](const vec3& p, void* d1, void* d2) -> EntityPtr { return game_spawn<entity_enemy_enforcer_t>(p, d1, d2); };
+    static spawn_func_t spawn_ogre = [](const vec3& p, void* d1, void* d2) -> EntityPtr { return game_spawn<entity_enemy_ogre_t>(p, d1, d2); };
+    static spawn_func_t spawn_zombie = [](const vec3& p, void* d1, void* d2) -> EntityPtr { return game_spawn<entity_enemy_zombie_t>(p, d1, d2); };
+    static spawn_func_t spawn_hound = [](const vec3& p, void* d1, void* d2) -> EntityPtr { return game_spawn<entity_enemy_hound_t>(p, d1, d2); };
+    static spawn_func_t spawn_health = [](const vec3& p, void* d1, void* d2) -> EntityPtr { return game_spawn<entity_pickup_health_t>(p, d1, d2); };
+    static spawn_func_t spawn_nailgun = [](const vec3& p, void* d1, void* d2) -> EntityPtr { return game_spawn<entity_pickup_nailgun_t>(p, d1, d2); };
+    static spawn_func_t spawn_grenadelauncher = [](const vec3& p, void* d1, void* d2) -> EntityPtr { return game_spawn<entity_pickup_grenadelauncher_t>(p, d1, d2); };
+    static spawn_func_t spawn_nails = [](const vec3& p, void* d1, void* d2) -> EntityPtr { return game_spawn<entity_pickup_nails_t>(p, d1, d2); };
+    static spawn_func_t spawn_grenades = [](const vec3& p, void* d1, void* d2) -> EntityPtr { return game_spawn<entity_pickup_grenades_t>(p, d1, d2); };
+    static spawn_func_t spawn_key = [](const vec3& p, void* d1, void* d2) -> EntityPtr { return game_spawn<entity_pickup_key_t>(p, d1, d2); };
+    static spawn_func_t spawn_door = [](const vec3& p, void* d1, void* d2) -> EntityPtr { return game_spawn<entity_door_t>(p, d1, d2); };
+    static spawn_func_t spawn_barrel = [](const vec3& p, void* d1, void* d2) -> EntityPtr { return game_spawn<entity_barrel_t>(p, d1, d2); };
+    static spawn_func_t spawn_torch = [](const vec3& p, void* d1, void* d2) -> EntityPtr { return game_spawn<entity_torch_t>(p, d1, d2); };
+    static spawn_func_t spawn_trigger_level = [](const vec3& p, void* d1, void* d2) -> EntityPtr { return game_spawn<entity_trigger_level_t>(p, d1, d2); };
+    
     spawn_func_t spawn_table[] = {
-        /* 00 */ [](const vec3& p, void* d1, void* d2) { return game_spawn<entity_player_t>(p, d1, d2); },
-        /* 01 */ [](const vec3& p, void* d1, void* d2) { return game_spawn<entity_enemy_grunt_t>(p, d1, d2); },
-        /* 02 */ [](const vec3& p, void* d1, void* d2) { return game_spawn<entity_enemy_enforcer_t>(p, d1, d2); },
-        /* 03 */ [](const vec3& p, void* d1, void* d2) { return game_spawn<entity_enemy_ogre_t>(p, d1, d2); },
-        /* 04 */ [](const vec3& p, void* d1, void* d2) { return game_spawn<entity_enemy_zombie_t>(p, d1, d2); },
-        /* 05 */ [](const vec3& p, void* d1, void* d2) { return game_spawn<entity_enemy_hound_t>(p, d1, d2); },
-        /* 06 */ [](const vec3& p, void* d1, void* d2) { return game_spawn<entity_pickup_health_t>(p, d1, d2); },
-        /* 07 */ [](const vec3& p, void* d1, void* d2) { return game_spawn<entity_pickup_nailgun_t>(p, d1, d2); },
-        /* 08 */ [](const vec3& p, void* d1, void* d2) { return game_spawn<entity_pickup_grenadelauncher_t>(p, d1, d2); },
-        /* 09 */ [](const vec3& p, void* d1, void* d2) { return game_spawn<entity_pickup_nails_t>(p, d1, d2); },
-        /* 10 */ [](const vec3& p, void* d1, void* d2) { return game_spawn<entity_pickup_grenades_t>(p, d1, d2); },
-        /* 11 */ [](const vec3& p, void* d1, void* d2) { return game_spawn<entity_pickup_key_t>(p, d1, d2); },
-        /* 12 */ [](const vec3& p, void* d1, void* d2) { return game_spawn<entity_door_t>(p, d1, d2); },
-        /* 13 */ [](const vec3& p, void* d1, void* d2) { return game_spawn<entity_barrel_t>(p, d1, d2); },
-        /* 14 */ [](const vec3& p, void* d1, void* d2) { return game_spawn<entity_torch_t>(p, d1, d2); },
-        /* 15 */ [](const vec3& p, void* d1, void* d2) { return game_spawn<entity_trigger_level_t>(p, d1, d2); },
+        /* 00 */ spawn_player,
+        /* 01 */ spawn_grunt,
+        /* 02 */ spawn_enforcer,
+        /* 03 */ spawn_ogre,
+        /* 04 */ spawn_zombie,
+        /* 05 */ spawn_hound,
+        /* 06 */ spawn_health,
+        /* 07 */ spawn_nailgun,
+        /* 08 */ spawn_grenadelauncher,
+        /* 09 */ spawn_nails,
+        /* 10 */ spawn_grenades,
+        /* 11 */ spawn_key,
+        /* 12 */ spawn_door,
+        /* 13 */ spawn_barrel,
+        /* 14 */ spawn_torch,
+        /* 15 */ spawn_trigger_level,
     };
     
     // Spawn all entities
     for (const auto& entity : current_map->entities) {
         if (entity.type < sizeof(spawn_table) / sizeof(spawn_table[0])) {
             vec3 pos(entity.x << 5, entity.y << 4, entity.z << 5);
-            spawn_table[entity.type](pos, &entity.data1, &entity.data2);
+            spawn_table[entity.type](pos, const_cast<uint8_t*>(&entity.data1), const_cast<uint8_t*>(&entity.data2));
         }
     }
 }

@@ -1,21 +1,14 @@
 #include "entity_player.h"
+#include "entity_light.h"  // Need full definition for game_spawn
 #include "../platform/input.h"
 #include "../renderer/renderer.h"
 #include "../core/math_utils.h"
 #include "game.h"
+#include "ui.h"
+#include "timer.h"
 #include <cmath>
 #include <algorithm>
-
-// Audio is included from weapons.h
-
-// UI element stubs - will be replaced with proper UI system
-void update_health_display(int health) {
-    // TODO: Update UI
-}
-
-void update_ammo_display(const std::string& ammo) {
-    // TODO: Update UI
-}
+#include <iostream>
 
 entity_player_t::entity_player_t(const vec3& pos, void* p1, void* p2) 
     : entity_t(pos, p1, p2), _speed(3000), _can_jump(false), _can_shoot_at(0),
@@ -71,6 +64,12 @@ void entity_player_t::_update() {
     }
     
     float shoot_wait = _can_shoot_at - game_time;
+    
+    // Safety check for weapons
+    if (_weapon_index >= _weapons.size() || !_weapons[_weapon_index]) {
+        return;
+    }
+    
     weapon_t* weapon = _weapons[_weapon_index].get();
     
     // Shoot weapon
@@ -111,14 +110,17 @@ void entity_player_t::_update() {
     
     vec3 weapon_pos = r_camera + vec3_rotate_yaw_pitch(weapon_offset, _yaw, _pitch);
     
-    r_draw(weapon_pos,
-           _yaw + M_PI/2, _pitch,
-           weapon->_texture, weapon->_model->f[0], weapon->_model->f[0], 0,
-           weapon->_model->nv);
+    // Safety check for model
+    if (weapon->_model && !weapon->_model->f.empty()) {
+        r_draw(weapon_pos,
+               _yaw + M_PI/2, _pitch,
+               weapon->_texture, weapon->_model->f[0], weapon->_model->f[0], 0,
+               weapon->_model->nv);
+    }
     
     // Update UI
-    update_health_display(static_cast<int>(_health));
-    update_ammo_display(weapon->_needs_ammo ? std::to_string(weapon->_ammo) : "∞");
+    UI::update_health(static_cast<int>(_health));
+    UI::update_ammo(weapon->_needs_ammo ? std::to_string(weapon->_ammo) : "∞");
 }
 
 void entity_player_t::_receive_damage(EntityPtr from, float amount) {
@@ -128,8 +130,9 @@ void entity_player_t::_receive_damage(EntityPtr from, float amount) {
 
 void entity_player_t::_kill() {
     entity_t::_kill();
-    update_health_display(static_cast<int>(_health));
-    title_show_message("YOU DIED");
-    // TODO: Implement timer for respawn
-    // setTimeout(() => game_init(game_map_index), 2000);
+    UI::update_health(static_cast<int>(_health));
+    UI::show_title_screen("YOU DIED");
+    
+    // Respawn after 2 seconds
+    setTimeout([](){ game_init(game_map_index); }, 2000);
 }

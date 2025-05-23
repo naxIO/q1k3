@@ -86,6 +86,7 @@ public:
 template<typename T>
 std::shared_ptr<T> game_spawn(const vec3& pos, void* p1 = nullptr, void* p2 = nullptr) {
     auto entity = std::make_shared<T>(pos, p1, p2);
+    entity->_init(p1, p2);  // Call _init after construction
     game_entities.push_back(entity);
     return entity;
 }

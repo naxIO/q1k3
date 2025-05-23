@@ -2,6 +2,7 @@
 #include "entity_projectile.h"
 #include "entity_player.h"
 #include "game.h"
+#include "weapons.h"
 #include "../renderer/renderer.h"
 #include "../assets/map.h"
 #include <cmath>
@@ -18,18 +19,14 @@ static model_t* model_gib_pieces[4] = {nullptr, nullptr, nullptr, nullptr};
 
 static void* sfx_enemy_hit = nullptr;
 static void* sfx_enemy_gib = nullptr;
-static void* sfx_shotgun_shoot = nullptr;
-static void* sfx_nailgun_shoot = nullptr;
-static void* sfx_grenade_shoot = nullptr;
+extern void* sfx_shotgun_shoot;
+extern void* sfx_nailgun_shoot;
+extern void* sfx_grenade_shoot;
 static void* sfx_plasma_shoot = nullptr;
 static void* sfx_zombie_hit = nullptr;
 static void* sfx_hound_attack = nullptr;
 
-// Map trace function stub
-bool map_trace(const vec3& from, const vec3& to) {
-    // TODO: Implement line of sight check
-    return false;
-}
+// map_trace is defined in map.cpp
 
 // Base enemy implementation
 entity_enemy_t::entity_enemy_t(const vec3& pos, void* p1, void* p2) 

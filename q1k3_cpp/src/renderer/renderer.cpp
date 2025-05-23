@@ -14,11 +14,11 @@ float r_camera_pitch = 0;
 static GLuint shader_program;
 static GLuint vao, vbo;
 static vertex_t* r_buffer;
-static int r_num_verts = 0;
+int r_num_verts = 0;
 static std::vector<light_t> r_lights;
 static std::vector<draw_call_t> r_draw_calls;
 static std::vector<texture_t> r_textures;
-static std::vector<model_t> r_models;
+std::vector<model_t> r_models;
 
 // Uniform locations
 static GLint r_u_camera;
@@ -388,11 +388,7 @@ void r_create_texture(GLubyte* data, int width, int height) {
     r_textures.push_back(tex);
 }
 
-bool model_load_container(const std::string& path) {
-    // TODO: Load model container
-    std::cout << "Loading models from: " << path << std::endl;
-    return true;
-}
+// model_load_container is defined in model.cpp
 
 model_t* model_get(int index) {
     if (index >= 0 && index < r_models.size()) {

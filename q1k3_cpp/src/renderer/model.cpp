@@ -7,6 +7,9 @@
 extern std::vector<model_t> r_models;
 extern int r_num_verts;
 
+// Forward declaration
+static void model_init(uint8_t* data, size_t size, float sx = 1, float sy = 1, float sz = 1);
+
 bool model_load_container(const std::string& path) {
     // Load all models from container file
     std::ifstream file(path + "m", std::ios::binary);
@@ -37,7 +40,7 @@ bool model_load_container(const std::string& path) {
         size_t model_size = (num_frames * num_verts + num_indices) * 3;
         
         // Parse this model
-        model_init(&data[i - 3], model_size + 3);
+        model_init(&data[i - 3], model_size + 3, 1, 1, 1);
         
         i += model_size;
     }
@@ -46,7 +49,7 @@ bool model_load_container(const std::string& path) {
     return true;
 }
 
-static void model_init(uint8_t* data, size_t size, float sx = 1, float sy = 1, float sz = 1) {
+static void model_init(uint8_t* data, size_t size, float sx, float sy, float sz) {
     model_t model;
     
     // Parse header

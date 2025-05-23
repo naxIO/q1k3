@@ -35,6 +35,7 @@ set(SOURCES
     src/game/weapons.cpp
     src/game/audio.cpp
     src/game/ui.cpp
+    src/game/timer.cpp
     src/platform/platform.cpp
     src/platform/input.cpp
     src/renderer/renderer.cpp
@@ -63,5 +64,5 @@ add_custom_command(TARGET q1k3 POST_BUILD
 if(MSVC)
     target_compile_options(q1k3 PRIVATE /W4)
 else()
-    target_compile_options(q1k3 PRIVATE -Wall -Wextra -O2)
+    target_compile_options(q1k3 PRIVATE -Wall -Wextra -g -O0)  # Debug symbols, no optimization
 endif()

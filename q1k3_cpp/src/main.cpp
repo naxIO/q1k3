@@ -37,7 +37,7 @@ int main(int /*argc*/, char* /*argv*/[]) {
     // Initialize UI
     UI::init();
     
-    // Load assets
+    // Load assets (copied by CMake to build directory)
     if (!map_load_container("assets/")) {
         std::cerr << "Failed to load maps!" << std::endl;
         return -1;

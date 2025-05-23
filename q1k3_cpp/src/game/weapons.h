@@ -11,22 +11,21 @@ class entity_projectile_nail_t;
 class entity_projectile_grenade_t;
 class entity_light_t;
 struct model_t;
-void audio_play(void* sound);
 
-// Sound effect declarations - temporarily defined as nullptr
+// Sound effect declarations
 // These will be loaded from the audio system
-static void* sfx_shotgun_shoot = nullptr;
-static void* sfx_shotgun_reload = nullptr;
-static void* sfx_nailgun_shoot = nullptr;
-static void* sfx_grenade_shoot = nullptr;
-static void* sfx_no_ammo = nullptr;
-static void* sfx_hurt = nullptr;
+extern void* sfx_shotgun_shoot;
+extern void* sfx_shotgun_reload;
+extern void* sfx_nailgun_shoot;
+extern void* sfx_grenade_shoot;
+extern void* sfx_no_ammo;
+extern void* sfx_hurt;
 
-// Model declarations - temporarily defined as nullptr
+// Model declarations
 // These will be loaded from the model loader
-static model_t* model_shotgun = nullptr;
-static model_t* model_nailgun = nullptr;
-static model_t* model_grenadelauncher = nullptr;
+extern model_t* model_shotgun;
+extern model_t* model_nailgun;
+extern model_t* model_grenadelauncher;
 
 class weapon_t {
 public:
@@ -49,17 +48,20 @@ public:
 
 class weapon_shotgun_t : public weapon_t {
 public:
+    weapon_shotgun_t();
     void _init() override;
     void _spawn_projectile(const vec3& pos, float yaw, float pitch) override;
 };
 
 class weapon_nailgun_t : public weapon_t {
 public:
+    weapon_nailgun_t();
     void _init() override;
 };
 
 class weapon_grenadelauncher_t : public weapon_t {
 public:
+    weapon_grenadelauncher_t();
     void _init() override;
 };
 

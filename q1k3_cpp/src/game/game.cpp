@@ -60,7 +60,7 @@ void game_update() {
     std::vector<EntityPtr> alive_entities;
     
     for (auto& entity : game_entities) {
-        if (!entity->_dead) {
+        if (entity && !entity->_dead) {
             entity->_update_physics();
             entity->_update();
             alive_entities.push_back(entity);

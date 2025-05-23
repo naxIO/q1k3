@@ -6,7 +6,16 @@
       "Bash(make:*)",
       "Bash(cp:*)",
       "Bash(find:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(./build.sh)",
+      "Bash(gcc:*)",
+      "Bash(./map_packer:*)",
+      "Bash(ls:*)",
+      "Bash(php:*)",
+      "Bash(./q1k3)",
+      "Bash(touch:*)",
+      "Bash(lldb:*)",
+      "Bash(timeout:*)"
     ],
     "deny": []
   }
