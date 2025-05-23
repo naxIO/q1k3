@@ -1,4 +1,6 @@
 #include "entity.h"
+#include "entity_particle.h"  // For entity_particle_t
+#include "../renderer/renderer.h"  // For model_t definition
 #include <cmath>
 #include <algorithm>
 

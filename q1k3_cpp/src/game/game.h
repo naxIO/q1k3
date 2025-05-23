@@ -33,16 +33,6 @@ void game_run(float time_now);
 void game_update();
 void game_cleanup();
 
-// Template spawn function
-template<typename T>
-std::shared_ptr<T> game_spawn(const vec3& pos, void* p1 = nullptr, void* p2 = nullptr) {
-    auto entity = std::make_shared<T>(pos, p1, p2);
-    game_entities.push_back(entity);
-    
-    // Add to specific lists based on type
-    // This will be expanded as we add entity types
-    
-    return entity;
-}
+// Spawn function is now in entity.h as a template
 
 #endif // GAME_H

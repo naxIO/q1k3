@@ -1,5 +1,7 @@
 #include "game.h"
 #include "entity.h"
+#include "entity_player.h"  // Add this include to fix incomplete type error
+#include "timer.h"
 #include "../platform/platform.h"
 #include "../platform/input.h"
 #include "../renderer/renderer.h"
@@ -51,6 +53,9 @@ void title_show_message(const std::string& msg, const std::string& sub) {
 }
 
 void game_update() {
+    // Update timers
+    Timer::update(game_time);
+    
     // Update all entities
     std::vector<EntityPtr> alive_entities;
     

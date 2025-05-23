@@ -22,9 +22,23 @@ set(SOURCES
     src/core/math_utils.cpp
     src/game/game.cpp
     src/game/entity.cpp
+    src/game/entity_player.cpp
+    src/game/entity_light.cpp
+    src/game/entity_particle.cpp
+    src/game/entity_projectile.cpp
+    src/game/entity_enemy.cpp
+    src/game/entity_pickup.cpp
+    src/game/entity_door.cpp
+    src/game/entity_barrel.cpp
+    src/game/entity_torch.cpp
+    src/game/entity_trigger_level.cpp
+    src/game/weapons.cpp
+    src/game/audio.cpp
+    src/game/ui.cpp
     src/platform/platform.cpp
     src/platform/input.cpp
     src/renderer/renderer.cpp
+    src/renderer/ttt.cpp
     src/renderer/texture.cpp
     src/renderer/model.cpp
     src/assets/map.cpp

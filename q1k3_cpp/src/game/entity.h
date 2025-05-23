@@ -18,11 +18,12 @@ using EntityPtr = std::shared_ptr<entity_t>;
 // Forward declarations
 struct model_t;
 class entity_particle_t;
+class entity_light_t;
 void r_draw(const vec3& pos, float yaw, float pitch, int texture, 
             int frame1, int frame2, float mix, int num_verts);
 extern vec3 r_camera;
 extern float r_camera_yaw;
-void audio_play(void* sound, float volume, float pitch, float pan);
+void audio_play(void* sound, float volume = 1.0f, float pitch = 0.0f, float pan = 0.0f);
 bool map_block_at(int x, int y, int z);
 bool map_block_at_box(const vec3& min, const vec3& max);
 
@@ -67,22 +68,26 @@ public:
     entity_t(const vec3& pos, void* p1 = nullptr, void* p2 = nullptr);
     virtual ~entity_t() = default;
     
-    virtual void _init(void* p1, void* p2) {}
+    virtual void _init(void* /*p1*/, void* /*p2*/) {}
     virtual void _update();
     virtual void _update_physics();
-    virtual void _did_collide(int axis) {}
-    virtual void _did_collide_with_entity(EntityPtr other) {}
+    virtual void _did_collide(int /*axis*/) {}
+    virtual void _did_collide_with_entity(EntityPtr /*other*/) {}
     
     void _draw_model();
     bool _collides(const vec3& p);
     void _spawn_particles(int amount, float speed, model_t* model, int texture, float lifetime);
-    void _receive_damage(EntityPtr from, float amount);
+    virtual void _receive_damage(EntityPtr from, float amount);
     void _play_sound(void* sound);
-    void _kill();
+    virtual void _kill();
 };
 
-// Template spawn function (implementation in game.cpp)
+// Template spawn function (implementation here to avoid linker issues)
 template<typename T>
-std::shared_ptr<T> game_spawn(const vec3& pos, void* p1 = nullptr, void* p2 = nullptr);
+std::shared_ptr<T> game_spawn(const vec3& pos, void* p1 = nullptr, void* p2 = nullptr) {
+    auto entity = std::make_shared<T>(pos, p1, p2);
+    game_entities.push_back(entity);
+    return entity;
+}
 
 #endif // ENTITY_H

@@ -1,15 +1,9 @@
 #include "weapons.h"
 #include "entity.h"
+#include "timer.h"
 #include "../platform/platform.h"
 #include <cstdlib>
 #include <functional>
-
-// Timer implementation for delayed callbacks
-void setTimeout(std::function<void()> callback, int ms) {
-    // TODO: Implement timer system
-    // For now, just call immediately
-    callback();
-}
 
 weapon_t::weapon_t() : _needs_ammo(true), _projectile_offset(0, 0, 8) {
     _init();

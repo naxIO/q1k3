@@ -13,17 +13,20 @@ class entity_light_t;
 struct model_t;
 void audio_play(void* sound);
 
-// Sound effect declarations
-extern void* sfx_shotgun_shoot;
-extern void* sfx_shotgun_reload;
-extern void* sfx_nailgun_shoot;
-extern void* sfx_grenade_shoot;
-extern void* sfx_no_ammo;
+// Sound effect declarations - temporarily defined as nullptr
+// These will be loaded from the audio system
+static void* sfx_shotgun_shoot = nullptr;
+static void* sfx_shotgun_reload = nullptr;
+static void* sfx_nailgun_shoot = nullptr;
+static void* sfx_grenade_shoot = nullptr;
+static void* sfx_no_ammo = nullptr;
+static void* sfx_hurt = nullptr;
 
-// Model declarations
-extern model_t* model_shotgun;
-extern model_t* model_nailgun;
-extern model_t* model_grenadelauncher;
+// Model declarations - temporarily defined as nullptr
+// These will be loaded from the model loader
+static model_t* model_shotgun = nullptr;
+static model_t* model_nailgun = nullptr;
+static model_t* model_grenadelauncher = nullptr;
 
 class weapon_t {
 public:

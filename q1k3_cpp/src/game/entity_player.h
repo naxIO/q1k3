@@ -23,3 +23,5 @@ public:
     void _receive_damage(EntityPtr from, float amount) override;
     void _kill() override;
 };
+
+#endif // ENTITY_PLAYER_H
